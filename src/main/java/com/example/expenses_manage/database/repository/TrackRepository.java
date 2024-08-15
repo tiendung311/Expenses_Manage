@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TrackRepository extends JpaRepository<Track, Integer> {
+    boolean existsByMonthAndYear(Integer month, Integer year);
+
+    Track findByMonthAndYear(Integer month, Integer year);
 }
