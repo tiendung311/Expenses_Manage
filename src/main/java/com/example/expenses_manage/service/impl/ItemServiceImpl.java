@@ -29,8 +29,13 @@ public class ItemServiceImpl implements ItemService {
         item.setNotes(request.getNotes());
         item.setCreatedAt(LocalDateTime.now());
 
-        Track track = trackService.findByMonthAndYear();
+        Track track = trackService.findByMonthAndYearAndUser(request.getUsername());
         item.setTrack(track);
+
+        track.setTotal(track.getTotal() - request.getPrice());
+        if (track.getTotal() < 0) {
+            track.setStatus("inactive");
+        }
 
         itemRepository.save(item);
     }

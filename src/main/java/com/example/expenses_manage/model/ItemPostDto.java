@@ -13,4 +13,5 @@ public class ItemPostDto {
     private String status;
     private Double price;
     private String notes;
+    private String username;
 }

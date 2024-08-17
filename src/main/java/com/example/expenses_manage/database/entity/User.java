@@ -15,8 +15,10 @@ public class User {
 
     private String fullName;
     private String email;
+    private String username;
     private String password;
     private LocalDate dob;
+    private Double total;
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
