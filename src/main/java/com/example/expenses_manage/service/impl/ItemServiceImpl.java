@@ -3,6 +3,7 @@ package com.example.expenses_manage.service.impl;
 import com.example.expenses_manage.database.entity.Item;
 import com.example.expenses_manage.database.entity.Track;
 import com.example.expenses_manage.database.repository.ItemRepository;
+import com.example.expenses_manage.database.repository.TrackRepository;
 import com.example.expenses_manage.model.ItemPostDto;
 import com.example.expenses_manage.service.ItemService;
 import com.example.expenses_manage.service.TrackService;
@@ -15,6 +16,9 @@ import java.time.LocalDateTime;
 public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private TrackRepository trackRepository;
 
     @Autowired
     private TrackService trackService;
@@ -38,5 +42,19 @@ public class ItemServiceImpl implements ItemService {
         }
 
         itemRepository.save(item);
+    }
+
+    @Override
+    public void deleteItem(Integer id) {
+        Item item = itemRepository.findByItemId(id);
+        itemRepository.delete(item);
+
+        Track track = item.getTrack();
+        track.setTotal(track.getTotal() + item.getPrice());
+        if (track.getTotal() >= 0) {
+            track.setStatus("active");
+        }
+
+        trackRepository.save(track);
     }
 }
