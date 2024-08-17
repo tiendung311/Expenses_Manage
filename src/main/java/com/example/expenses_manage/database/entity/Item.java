@@ -1,5 +1,6 @@
 package com.example.expenses_manage.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,5 +23,6 @@ public class Item {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trackId")
+    @JsonIgnore
     private Track track;
 }

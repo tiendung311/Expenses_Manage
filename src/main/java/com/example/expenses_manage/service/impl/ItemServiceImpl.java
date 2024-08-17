@@ -2,8 +2,10 @@ package com.example.expenses_manage.service.impl;
 
 import com.example.expenses_manage.database.entity.Item;
 import com.example.expenses_manage.database.entity.Track;
+import com.example.expenses_manage.database.entity.User;
 import com.example.expenses_manage.database.repository.ItemRepository;
 import com.example.expenses_manage.database.repository.TrackRepository;
+import com.example.expenses_manage.database.repository.UserRepository;
 import com.example.expenses_manage.model.ItemPostDto;
 import com.example.expenses_manage.service.ItemService;
 import com.example.expenses_manage.service.TrackService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -22,6 +25,16 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private TrackService trackService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public List<Item> getAllItemsByMonthAndYearAndUser(Integer month, Integer year, String username) {
+        User user = userRepository.findByUsername(username);
+
+        return itemRepository.findAllItemsByMonthAndYearAndUser(month, year, user);
+    }
 
     @Override
     public void createItem(ItemPostDto request) {
