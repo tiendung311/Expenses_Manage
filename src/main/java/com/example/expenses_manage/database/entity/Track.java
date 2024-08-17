@@ -21,4 +21,8 @@ public class Track {
 
     @OneToMany(mappedBy = "track")
     private List<Item> items;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 }
