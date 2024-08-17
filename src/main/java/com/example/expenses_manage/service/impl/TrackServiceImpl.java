@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class TrackServiceImpl implements TrackService {
@@ -37,5 +38,12 @@ public class TrackServiceImpl implements TrackService {
         User user = userRepository.findByUsername(username);
 
         return trackRepository.findByMonthAndYearAndUser(month, year, user);
+    }
+
+    @Override
+    public List<Track> getAllTracksByUser(String username) {
+        User user = userRepository.findByUsername(username);
+
+        return trackRepository.findAllByUser(user);
     }
 }
