@@ -22,9 +22,8 @@ public class TrackScheduler {
 
     private static final Logger log = Logger.getLogger(TrackScheduler.class.getName());
 
-    // Create a new track every month
-//    @Scheduled(cron = "0 0 0 1 * ?")
-    @Scheduled(cron = "0 * * * * ?")  // For testing every minute
+    // Create a new track every month for user
+    @Scheduled(cron = "0 * * * * ?")  // Run every minute
     public void createTrack() {
         log.info("Creating a new track...");
 
