@@ -2,8 +2,10 @@ package com.example.expenses_manage.service.impl;
 
 import com.example.expenses_manage.database.entity.User;
 import com.example.expenses_manage.database.repository.UserRepository;
+import com.example.expenses_manage.model.UserLoginDto;
 import com.example.expenses_manage.model.UserRegisterDto;
 import com.example.expenses_manage.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,5 +52,21 @@ public class UserServiceImpl implements UserService {
             errors.add("Passwords do not match");
         }
         return errors;
+    }
+
+    @Override
+    public String login(UserLoginDto userLoginDto, HttpSession session) {
+        Optional<User> userOptional = userRepository.findByEmail(userLoginDto.getEmail());
+        if (userOptional.isEmpty()) {
+            return "Email is incorrect";
+        }
+
+        User user = userOptional.get();
+        if (!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
+            return "Password is incorrect";
+        }
+
+        session.setAttribute("user", user);
+        return "Login successful";
     }
 }
